@@ -42,6 +42,17 @@ a {
   overflow: hidden;
 }
 
+.invite__content,
+.invite__actions {
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+body.is-ready .invite__content,
+body.is-ready .invite__actions {
+  opacity: 1;
+}
+
 .invite__video,
 .invite__shade {
   position: absolute;

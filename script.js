@@ -4,6 +4,7 @@ const video = document.querySelector(".invite__video");
 const soundButton = document.querySelector("#soundButton");
 const languageButtons = document.querySelectorAll("[data-lang]");
 const calendarLink = document.querySelector(".action--primary");
+const baseUrl = "https://noahwatling.github.io/maria-noah-save-the-date/";
 
 const translations = {
   en: {
@@ -65,7 +66,32 @@ async function toggleSound() {
   setSoundState(!video.muted && video.volume > 0);
 }
 
-function setLanguage(language) {
+function getUrlLanguage() {
+  const params = new URLSearchParams(window.location.search);
+  const language = params.get("lang");
+  return translations[language] ? language : "en";
+}
+
+function updateLanguageUrl(language) {
+  const nextUrl = new URL(window.location.href);
+  nextUrl.searchParams.set("lang", language);
+  window.history.replaceState({}, "", nextUrl);
+}
+
+function updatePageMeta(language) {
+  const localizedDescription = {
+    en: "Save the date for Maria & Noah on July 21, 2027 in Leopoldshafen, Germany.",
+    de: "Bitte vormerken: Maria & Noah am 21. Juli 2027 in Leopoldshafen, Deutschland.",
+    pt: "Reserve a data: Maria & Noah em 21 de julho de 2027 em Leopoldshafen, Alemanha."
+  };
+
+  document.title = `Maria & Noah | ${translations[language].label}`;
+  document.querySelector('meta[name="description"]').setAttribute("content", localizedDescription[language]);
+  document.querySelector('meta[property="og:description"]').setAttribute("content", `${translations[language].date} | ${translations[language].place}`);
+  document.querySelector('meta[property="og:url"]').setAttribute("content", `${baseUrl}?lang=${language}`);
+}
+
+function setLanguage(language, shouldUpdateUrl = true) {
   activeLanguage = translations[language] ? language : "en";
   root.lang = activeLanguage;
 
@@ -83,10 +109,28 @@ function setLanguage(language) {
   });
 
   setSoundState(!video.muted && video.volume > 0);
+  updatePageMeta(activeLanguage);
+
+  if (shouldUpdateUrl) {
+    updateLanguageUrl(activeLanguage);
+  }
+
+  document.body.classList.add("is-ready");
+}
+
+async function startVideo() {
+  video.muted = false;
+  video.volume = 1;
 
   try {
-    localStorage.setItem("saveDateLanguage", activeLanguage);
-  } catch (error) {}
+    await video.play();
+  } catch (error) {
+    video.muted = true;
+    video.volume = 0;
+    await video.play().catch(() => {});
+  }
+
+  setSoundState(!video.muted && video.volume > 0);
 }
 
 setViewportHeight();
@@ -98,10 +142,5 @@ languageButtons.forEach((button) => {
 });
 
 video.addEventListener("volumechange", () => setSoundState(!video.muted && video.volume > 0));
-video.play().catch(() => {});
-
-try {
-  setLanguage(localStorage.getItem("saveDateLanguage") || "en");
-} catch (error) {
-  setLanguage("en");
-}
+setLanguage(getUrlLanguage(), false);
+startVideo();
