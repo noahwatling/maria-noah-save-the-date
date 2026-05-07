@@ -9,7 +9,7 @@ const baseUrl = "https://noahwatling.github.io/maria-noah-save-the-date/";
 const translations = {
   en: {
     label: "Save the date",
-    date: "July 21, 2027",
+    date: "July 24, 2027",
     place: "Leopoldshafen, Germany",
     calendar: "Add to calendar",
     pageLabel: "Save the date for Maria and Noah",
@@ -19,7 +19,7 @@ const translations = {
   },
   de: {
     label: "Bitte vormerken",
-    date: "21. Juli 2027",
+    date: "24. Juli 2027",
     place: "Leopoldshafen, Deutschland",
     calendar: "Kalender",
     pageLabel: "Save the Date für Maria und Noah",
@@ -29,7 +29,7 @@ const translations = {
   },
   pt: {
     label: "Reserve a data",
-    date: "21 de julho de 2027",
+    date: "24 de julho de 2027",
     place: "Leopoldshafen, Alemanha",
     calendar: "Calendário",
     pageLabel: "Save the date de Maria e Noah",
@@ -80,9 +80,9 @@ function updateLanguageUrl(language) {
 
 function updatePageMeta(language) {
   const localizedDescription = {
-    en: "Save the date for Maria & Noah on July 21, 2027 in Leopoldshafen, Germany.",
-    de: "Bitte vormerken: Maria & Noah am 21. Juli 2027 in Leopoldshafen, Deutschland.",
-    pt: "Reserve a data: Maria & Noah em 21 de julho de 2027 em Leopoldshafen, Alemanha."
+    en: "Save the date for Maria & Noah on July 24, 2027 in Leopoldshafen, Germany.",
+    de: "Bitte vormerken: Maria & Noah am 24. Juli 2027 in Leopoldshafen, Deutschland.",
+    pt: "Reserve a data: Maria & Noah em 24 de julho de 2027 em Leopoldshafen, Alemanha."
   };
 
   document.title = `Maria & Noah | ${translations[language].label}`;
