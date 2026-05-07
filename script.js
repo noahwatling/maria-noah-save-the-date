@@ -5,6 +5,7 @@ const soundButton = document.querySelector("#soundButton");
 const languageButtons = document.querySelectorAll("[data-lang]");
 const calendarLink = document.querySelector(".action--primary");
 const baseUrl = "https://noahwatling.github.io/maria-noah-save-the-date/";
+const languagePaths = ["en", "de", "pt"];
 
 const translations = {
   en: {
@@ -69,13 +70,38 @@ async function toggleSound() {
 function getUrlLanguage() {
   const params = new URLSearchParams(window.location.search);
   const language = params.get("lang");
-  return translations[language] ? language : "en";
+  if (translations[language]) {
+    return language;
+  }
+
+  const pathLanguage = window.location.pathname.split("/").filter(Boolean).pop();
+  if (translations[pathLanguage]) {
+    return pathLanguage;
+  }
+
+  const defaultLanguage = document.body.dataset.defaultLang;
+  return translations[defaultLanguage] ? defaultLanguage : "en";
+}
+
+function getLanguageUrl(language) {
+  const pathParts = window.location.pathname.split("/").filter(Boolean);
+  const lastPart = pathParts[pathParts.length - 1];
+
+  if (window.location.hostname === "noahwatling.github.io") {
+    return `${baseUrl}${language}/`;
+  }
+
+  if (languagePaths.includes(lastPart)) {
+    pathParts[pathParts.length - 1] = language;
+  } else {
+    pathParts.push(language);
+  }
+
+  return `${window.location.origin}/${pathParts.join("/")}/`;
 }
 
 function updateLanguageUrl(language) {
-  const nextUrl = new URL(window.location.href);
-  nextUrl.searchParams.set("lang", language);
-  window.history.replaceState({}, "", nextUrl);
+  window.location.assign(getLanguageUrl(language));
 }
 
 function updatePageMeta(language) {
@@ -88,7 +114,7 @@ function updatePageMeta(language) {
   document.title = `Maria & Noah | ${translations[language].label}`;
   document.querySelector('meta[name="description"]').setAttribute("content", localizedDescription[language]);
   document.querySelector('meta[property="og:description"]').setAttribute("content", `${translations[language].date} | ${translations[language].place}`);
-  document.querySelector('meta[property="og:url"]').setAttribute("content", `${baseUrl}?lang=${language}`);
+  document.querySelector('meta[property="og:url"]').setAttribute("content", `${baseUrl}${language}/`);
 }
 
 function setLanguage(language, shouldUpdateUrl = true) {
