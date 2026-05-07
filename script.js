@@ -10,7 +10,7 @@ const languagePaths = ["en", "de", "pt"];
 const translations = {
   en: {
     label: "Save the date",
-    date: "July 24, 2027",
+    date: "Friday, July 23, 2027",
     place: "Leopoldshafen, Germany",
     calendar: "Add to calendar",
     pageLabel: "Save the date for Maria and Noah",
@@ -20,7 +20,7 @@ const translations = {
   },
   de: {
     label: "Bitte vormerken",
-    date: "24. Juli 2027",
+    date: "Freitag, 23. Juli 2027",
     place: "Leopoldshafen, Deutschland",
     calendar: "Kalender",
     pageLabel: "Save the Date für Maria und Noah",
@@ -30,7 +30,7 @@ const translations = {
   },
   pt: {
     label: "Reserve a data",
-    date: "24 de julho de 2027",
+    date: "sexta-feira, 23 de julho de 2027",
     place: "Leopoldshafen, Alemanha",
     calendar: "Calendário",
     pageLabel: "Save the date de Maria e Noah",
@@ -106,9 +106,9 @@ function updateLanguageUrl(language) {
 
 function updatePageMeta(language) {
   const localizedDescription = {
-    en: "Save the date for Maria & Noah on July 24, 2027 in Leopoldshafen, Germany.",
-    de: "Bitte vormerken: Maria & Noah am 24. Juli 2027 in Leopoldshafen, Deutschland.",
-    pt: "Reserve a data: Maria & Noah em 24 de julho de 2027 em Leopoldshafen, Alemanha."
+    en: "Save the date for Maria & Noah on Friday, July 23, 2027 in Leopoldshafen, Germany.",
+    de: "Bitte vormerken: Maria & Noah am Freitag, 23. Juli 2027 in Leopoldshafen, Deutschland.",
+    pt: "Reserve a data: Maria & Noah na sexta-feira, 23 de julho de 2027 em Leopoldshafen, Alemanha."
   };
 
   document.title = `Maria & Noah | ${translations[language].label}`;
